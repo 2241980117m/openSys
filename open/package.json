@@ -11,7 +11,7 @@
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "debug": "^3.0.1",
-    "express": "file:node_modules/express",
+     "express": "^4.16.2",
     "http": "0.0.0",
     "multer": "^1.3.0",
     "querystring": "^0.2.0",
