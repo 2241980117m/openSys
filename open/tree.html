@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	
+	<title>树</title>
+
+	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
+	
+	<!-- <link rel="stylesheet" media="screen" href="assets/css/Opensans.css"> -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+
+	<!-- Custom styles for our template -->
+	<link rel="stylesheet" href="assets/css/bootstrap-theme.css" media="screen" >
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/page.css">
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.js"></script>
+	<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+	<script type="text/javascript" src="assets/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+	 $(document).ready(function(){
+	 	$(window).resize(function(){
+	 		var hei=$(".heigh").height();
+	 		$(".arithmetic-more").css({"height":hei});
+	 	});
+	 });
+	 $(document).ready(function(){
+	 	$(function(){
+	 		var hei=$(".heigh").height();
+	 		$(".arithmetic-more").css({"height":hei});
+	 	});
+	 });
+	 $(document).ready(function(){
+	 	$(".arithmetic-ground-2").hover(function(){
+	 		$(this).find('.arithmetic-more').stop(true);
+	 		$(this).find('.arithmetic-more').fadeIn('slow');
+	 	},function(){
+	 		$(this).find('.arithmetic-more').fadeOut('fast');
+	 	})
+	 });
+	 $(document).ready(function(){
+	 	$(".choice").hover(function(){
+	 		$(this).find('.choice-more').stop(true);
+	 		$(this).find('.choice-more').fadeIn('slow');
+	 	},function(){
+	 		$(this).find('.choice-more').fadeOut('fast');
+	 	})
+	 });
+	 $(document).ready(function(){
+	 	$(".btn-more").click(function(){
+	 		$oDiv = $(this).prev(".arithmetic-more2");
+	 		$(this).prev(".arithmetic-more2").slideToggle(0);
+			if($oDiv.is(':visible'))
+			{
+               $(this).html("收起");
+            }
+            else
+            {
+             	$(this).html("更多");   
+            } 		
+	 	});
+	 });
+	</script>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top headroom" >
+		<div class="container">
+			<div class="navbar-header">
+				<!-- Button for smallest screens -->
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+				<a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" alt="Association of Network and Technology"></a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav pull-right">
+					<li><a href="index.html">主页</a></li>
+					<li><a href="http://blog.xiyounet.org">CTF</a></li>
+					
+					<li><a href="about.html">关于</a></li>
+					<li><a href="contact.html">联系我们</a></li>
+					<li><a href="">Slide</a></li>
+					<li class="active"><a href="">协议算法平台</a></li>
+					<!-- <li><a class="btn" href="signin.html">SIGN IN / SIGN UP</a></li> -->
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div> 
+	<div class="max row">
+	<div class="bgd col-lg-8 col-md-10 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-1 col-sm-offset-1 col-xs-offset-0">
+
+		<div class="classify col-lg-3 col-md-3 col-sm-3 col-xs-12">
+			<div class="selet col-lg-10 col-md-11 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1 col-sm-offset-0 col-xs-offset-0">
+				<span>Search</span>
+			</div>
+			<div style="background-image: url(assets/images/排序.png);background-size: 75% 75%; background-repeat: no-repeat; background-position: center;" class="choice col-lg-6 col-md-8 col-sm-8 col-xs-5 col-lg-offset-3 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+			<a href="sort.html">
+			<div class="choice-more gradient">
+				<p>排序</p>
+				</div>
+				</a>
+			</div>
+			<div style="background-image: url(assets/images/树.png);background-size: 75% 75%; background-repeat: no-repeat; background-position: center;" class="choice col-lg-6 col-md-8 col-sm-8 col-xs-5 col-lg-offset-3 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+				<a href="tree.html">
+				<div class="choice-more gradient">
+				<p>树</p>
+				</div>
+				</a>
+			</div>
+			<div style="background-image: url(assets/images/图.png);background-size: 75% 75%; background-repeat: no-repeat; background-position: center;" class="choice col-lg-6 col-md-8 col-sm-8 col-xs-5 col-lg-offset-3 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+				<a href="graph.html">
+				<div class="choice-more gradient">
+				<p>图</p>
+				</div>
+				</a>
+			</div>
+			<div style="background-image: url(assets/images/查找.png);background-size: 75% 75%; background-repeat: no-repeat; background-position: center;" class="choice col-lg-6 col-md-8 col-sm-8 col-xs-5 col-lg-offset-3 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+				<a href="search.html">
+				<div class="choice-more gradient">
+				<p>查找</p>
+				</div>
+				</a>
+			</div>
+			<form class="form-inline">
+<!--   <div class="search form-group">
+  <label class="sr-only" for="exampleInputAmount">查找</label>
+  <div class="input-group">
+   <input type="text" class="form-control search-text col-lg-offset-0 col-md-offset-0 col-sm-offset-0 col-xs-offset-0" id="exampleInputAmount" placeholder="Search">
+  </div> 
+ 	 <button type="submit" class="btn btn-info search-btn">查找</button>
+</div> -->
+ 
+	</form>
+		</div>
+		<div class="example col-lg-9 col-md-9 col-sm-9 col-xs-12">
+	<!-- 	<div class="example-first col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		<div class="arithmetic col-lg-10 col-md-12 col-sm-12 col-xs-12">
+		<div class="arithmetic-ground-2">
+		<img class="heigh" src="image/img2.png" alt="">
+		<div class="arithmetic-introduce">
+			<p>先序遍历</p>
+		</div>
+		<div class="arithmetic-more2">
+			<p>时间复杂度：</p>
+			<p>空间复杂度：</p>
+		</div>
+		<button type="button" class="btn btn-default btn-sm btn-more">更多</button>
+	
+		<a href="">
+		<div class="arithmetic-more">
+		<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp先序遍历也叫做先根遍历、前序遍历，可记做根左右（二叉树父结点向下先左后右）。
+		首先访问根结点然后遍历左子树，最后遍历右子树。在遍历左、右子树时，仍然先访问根结点，然后遍历左子树，最后遍历右子树，如果二叉树为空则返回。</p>	
+		</div>
+		</a>
+		</div>
+		</div>
+		<div class="arithmetic col-lg-10 col-md-12 col-sm-12 col-xs-12">
+		<div class="arithmetic-ground-2">
+		<img class="heigh" src="image/img2.png" alt="">
+		<div class="arithmetic-introduce">
+			<p>后序遍历</p>
+		</div>
+		<div class="arithmetic-more2">
+			<p>时间复杂度：</p>
+			<p>空间复杂度：</p>
+		</div>
+		<button type="button" class="btn btn-default btn-sm btn-more">更多</button>
+		<a href="">
+		<div class="arithmetic-more">
+		<p> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp后序遍历首先遍历左子树，然后遍历右子树，最后访问根结点，在遍历左、右子树时，仍然先遍历左子树，然后遍历右子树，最后遍历根结点</p>	
+		</div>
+		</a>
+		</div>
+		</div>	
+	</div> -->
+		<div class="example-second col-lg-6 col-md-6 col-sm-6 col-xs-12">
+<!-- 		<div class="arithmetic col-lg-10 col-md-12 col-sm-12 col-xs-12">
+	<div class="arithmetic-ground-2">
+	<img class="heigh" src="image/img2.png" alt="">
+	<div class="arithmetic-introduce">
+		<p>中序遍历</p>
+	</div>
+	<div class="arithmetic-more2">
+		<p>时间复杂度：</p>
+		<p>空间复杂度：</p>
+	</div>
+	<button type="button" class="btn btn-default btn-sm btn-more">更多</button>
+	<a href="">
+	<div class="arithmetic-more">
+	<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp先遍历左子树，然后遍历根结点，最后遍历右子树。如果二叉树为空则返回。</p>	
+	</div>
+	</a>
+	</div>
+	</div> -->
+			<div class="arithmetic col-lg-10 col-md-12 col-sm-12 col-xs-12">
+			<div class="arithmetic-ground-2">
+			<img class="heigh" src="assets/images/img2.png" alt="">
+			<div class="arithmetic-introduce">
+				<a href="huff.html"><p>建立哈夫曼树</p></a>
+			</div>
+			<div class="arithmetic-more2">
+				<p>时间复杂度：</p>
+				<p>空间复杂度：</p>
+			</div>
+			<button type="button" class="btn btn-default btn-sm btn-more">更多</button>
+			<a href="">
+			<div class="arithmetic-more">
+			<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1、将所有节点看成独立的树，且左右子树都为空，没有父节点；
+
+				2、挑选两棵根节点权值最小的没有父节点的树，生成一个节点作为它们的父节点，父节点的权值等于他们的权值之和；
+
+				3、重复第2步，直到最后变成一棵树。</p>	
+			</div>
+			</a>
+			</div>
+			</div>
+		</div>	
+		</div>
+	</div>
+	</div>
+	<footer id="footer" class="top-space">
+		<div class="footer1">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 widget">
+						<h3 class="widget-title">联系我们</h3>
+						<div class="widget-body">
+							<address>陕西省西安市长安区西安邮电大学 东区 FZ130	</address>
+								<p><b>邮箱:</b><a href="mailto:admin@xiyouant.org">admin@xiyouant.org</a><br></p>	
+						</div>
+					</div>
+
+					<div class="col-md-2 widget">
+						<h3 class="widget-title">Follow Us</h3>
+						<div class="widget-body">
+							<p class="follow-me-icons">
+								<a class="social-btn bspopover" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true"data-content="<img src=assets/images/wechat.jpg style='width: 140px; height: 140px;'>" data-original-title="" title="">
+      							<i class="fa fa-weixin fa-2"></i>
+    							</a>
+								<a href="https://github.com/xiyouant" target="_blank"><i class="fa fa-github fa-2"></i></a>
+							</p>	
+						</div>
+					</div>
+
+					<div class="col-md-2 widget">
+						<h3 class="widget-title">友情赞助</h3>
+						<div class="widget-body">
+								<p><a href="contribution.html" target="_blank">我要赞助</a></p>
+								<p><a href="donorList.html" target="_blank">查看捐赠者列表</a></p>	
+						</div>
+					</div>
+
+					<div class="col-md-5 widget">
+						<h3 class="widget-title">内容许可</h3>
+						<div class="widget-body">
+							<p>本站由 <a href="https://www.digitalocean.com/?refcode=3c8422b30f9d">DigitalOcean</a> 提供服务器支持<a href="http://www.qiniu.com/"> 七牛 </a>提供 CDN 存储服务</p>
+							<p>除特别说明外，用户内容均采用
+							<a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-sa/3.0/cn/">知识共享署名-相同方式共享 3.0 中国大陆许可协议</a>进行许可</p>
+						</div>
+					</div>
+
+				</div> <!-- /row of widgets -->
+			</div>
+		</div>
+
+		<div class="footer2">
+			<div class="container">
+				<div class="row">
+					
+					<div class="col-md-6 col-sm-6 widget">
+						<div class="widget-body">
+<!-- 							<p class="simplenav">
+								<a href="#">主页</a> | 
+								<a href="http://blog.xiyounet.org">专栏</a> |
+								<a href="http://lib.xiyounet.org">网协图书馆</a> |
+								<a href="contact.html">联系我们</a> 
+							</p> -->
+							<p class="text-center">Copyright &copy; 2010-2016  西安邮电大学计算机院网络科技协会.</p>
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-6 widget">
+						<div class="widget-body">
+							<p class="text-center">陕ICP备15013578号 当前呈现版本 15.11.4</p>
+						</div>
+					</div>
+
+				</div> <!-- /row of widgets -->
+			</div>
+		</div>
+
+	</footer>
+	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+	<script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/headroom.min.js"></script>
+	<script src="assets/js/jQuery.headroom.min.js"></script>
+	<script src="assets/js/template.js"></script>
+	<!--  popover initialization -->
+	<script>$(function () {$('[data-toggle="popover"]').popover()})</script>
+</body>
+</html>

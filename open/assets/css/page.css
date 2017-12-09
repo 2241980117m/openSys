@@ -1,0 +1,377 @@
+.max
+		{
+			background-color: white;
+			height: auto;
+			width: auto;
+			margin:0;
+		}
+		.bgd
+		{
+
+			background-color: white;
+			height: auto;
+			margin-top: 120px;
+			padding: 0;
+		}
+		.classify
+		{
+			margin-top: 10vh;
+			display: -webkit-flex;
+ 			display: flex;
+			-webkit-justify-content: center;
+          	justify-content: center;
+          	-webkit-flex-wrap:wrap;
+        	flex-wrap:wrap;
+		}
+		.example
+		{
+			height: auto;
+			padding-bottom: 10vh;
+		}
+		.example-first
+		{
+			background-color: auto;
+			height: auto;
+			display: -moz-flex;
+			display: -webkit-flex;
+ 			display: flex;
+ 			-moz-align-self:flex-start;
+ 			-webkit-align-self:flex-start;
+        	align-self:flex-start;
+        	-moz-justify-content: center;
+        	-webkit-justify-content: center;
+          	justify-content: center;
+          	-moz-flex-wrap:wrap;
+          	-webkit-flex-wrap:wrap;
+        	flex-wrap:wrap;
+		}
+		.example-second
+		{
+			background-color: auto;
+			height: auto;
+			display: -moz-flex;
+			display: -webkit-flex;
+ 			display: flex;
+ 			-moz-align-self:flex-start;
+ 			-webkit-align-self:flex-start;
+        	align-self:flex-start;
+        	-moz-justify-content: center;
+        	-webkit-justify-content: center;
+          	justify-content: center;
+          	-moz-flex-wrap:wrap;
+          	-webkit-flex-wrap:wrap;
+        	flex-wrap:wrap;
+			
+		}
+		
+		.choice
+		{
+			height: 140px;	
+			background-color: #F7F5F4;
+			margin-bottom: 3vh;	
+			padding: 0px;
+			min-width: 115px;
+			color: white;
+			opacity: 0.6;
+			cursor: pointer;
+			box-shadow: 0px 0px 10px black;
+			border: 3px solid black;
+			text-align: center;
+			background-size: 100% 100%;
+			font-family: KaiTi;
+			border-radius: 15px;
+			position: relative;
+			right: 10px;
+		}
+		.choice-mroe p
+		{
+			display: none;
+		}
+		.search
+		{
+
+			width: 100%;
+			margin-bottom: 5%;
+			display: -moz-flex;
+			display: -webkit-flex;
+			display: flex;
+  			-webkit-justify-content: center;
+  			-moz-justify-content: center;
+          	justify-content: center;
+		}
+		.search-btn
+		{
+			height: 34px;
+			float: right;
+			padding-top: 7px;
+			margin-top: 10px;
+		}
+		.search-text
+		{
+			width: 100%!important;
+			float: right!important;
+		}
+		.arithmetic
+		{
+			height: 300px;
+			background-color: auto;
+			margin-bottom: 100px;
+			padding: 0;
+			margin-top: 5vh;
+		}
+		.arithmetic img
+		{
+			width: 100%;
+			box-shadow: 0px 0px 15px black;
+			opacity: 0.6;
+		}
+		.arithmetic-introduce
+		{
+			height: auto;
+			width: 100%;
+			word-wrap: break-word;
+			padding-bottom: 0.5rem;
+			padding-top: 2rem;
+			font-weight: bold;
+			padding-right: 1rem;
+			padding-left: 1rem;
+			font-size: 25px;
+			border-radius: 0 0 1rem 1rem;
+			text-align: center;
+			text-shadow: 3px 3px 5px white;
+		}
+		p label {
+		    color: black;
+		    font-weight: 100;
+		    font-size: 1px;
+		    position: relative;
+		    top: 3px;
+        }
+        p span {
+    		font-size: 16px;
+		}
+
+
+		.arithmetic-ground-2
+		{
+			border: 2px dotted black;
+			background-color: #F7F5F4;
+			border-radius: 15px;
+			padding:5%;
+			padding-top: 20px;
+			width: 100%;
+			height: auto;
+			word-wrap: break-word;
+			text-decoration: none;
+			position: relative;
+		}
+		.arithmetic-more
+		{
+			background-color: black;
+			opacity: 0.6;
+			color: white;
+			width: 90%;
+			padding: 1rem;
+			position: absolute;
+			top: 20px;
+			word-wrap: break-word;
+			display: none;
+			font-size: 0.85vw;
+		}
+		.arithmetic-more2
+		{
+			width: 100%;
+			height: auto;
+			word-wrap: break-word;
+			margin-bottom: 10px;
+			display: none;
+		}
+		.selet
+		{
+			background-color: black;
+			margin-bottom: 20px;
+			color: white;
+			font-size: 36px;
+			text-align: center;
+			opacity: 0.7;
+			font-family: font1;
+			box-shadow: 0px 0px 10px white inset;
+		}
+		.choice-more
+		{
+			background-color: #F7F5F4;
+			opacity: 0.8;
+			color: black;
+			font-size: 45px;
+			height: 100%;
+			width: 100%;
+			padding-top: 35px;
+			display: none;
+			border-radius: 15px;
+		}
+		@font-face
+		{
+			font-family: font1;
+			src:url(../../font/font6/Poiret_One/PoiretOne-Regular.ttf);
+		}
+		.arithmetic-ground-2:before
+		{
+			content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            width: 0;
+            height: 3px;
+            background: black;
+            transition: all 0.3s;
+		}
+		.arithmetic-ground-2:hover:before{
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
+        .gradient
+        {
+        	background: linear-gradient(left top,#85CBCD,#F9E2AE);
+        	background: -moz-linear-gradient(left top,#85CBCD,#F9E2AE);
+        	background: -webkit-linear-gradient(left top,#85CBCD,#F9E2AE);
+        }
+        .arithmetic-ground:before
+		{
+			content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            width: 0;
+            height: 3px;
+            background: black;
+            transition: all 0.3s;
+		}
+		.arithmetic-ground:hover:before{
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
+        .arithmetic-ground
+		{
+			border: 2px dotted black;
+			background-color: #F7F5F4;
+			border-radius: 15px;
+			padding:5%;
+			padding-top: 20px;
+			width: 100%;
+			height: auto;
+			word-wrap: break-word;
+			text-decoration: none;
+			position: relative;
+		}
+		.arithmetic-ground-3:before
+		{
+			content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            width: 0;
+            height: 3px;
+            background: black;
+            transition: all 0.3s;
+		}
+		.arithmetic-ground-3:hover:before{
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
+        .arithmetic-ground-3
+		{
+			border: 2px dotted black;
+			background-color: #F7F5F4;
+			border-radius: 15px;
+			padding:5%;
+			padding-top: 20px;
+			width: 100%;
+			height: auto;
+			word-wrap: break-word;
+			text-decoration: none;
+			position: relative;
+		}
+		.arithmetic-ground-4
+		{
+			border: 2px dotted black;
+			background-color: #F7F5F4;
+			border-radius: 15px;
+			padding:5%;
+			padding-top: 20px;
+			width: 100%;
+			height: auto;
+			word-wrap: break-word;
+			text-decoration: none;
+			position: relative;
+		}
+		.arithmetic-ground-4:before
+		{
+			content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            width: 0;
+            height: 3px;
+            background: black;
+            transition: all 0.3s;
+		}
+		.arithmetic-ground-4:hover:before{
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
+        @media screen and (max-width:450px)
+		{
+			.choice-more
+			{
+				display: block;
+			}
+			.arithmetic-more
+			{
+				display: block;
+				font-size: 13px;
+			}
+		.arithmetic
+		{
+			height: auto;
+			background-color: auto;
+			margin-bottom: 10vh;
+			padding: 0;
+			margin-top: 5vh;
+		}
+		}
+		@media screen and (max-width:768px)
+		{
+			.classify
+		{
+			margin-top: 3vh;
+		}
+			.search-btn
+			{
+				height: 34px;
+				float: right;
+				padding-top: 7px;
+				margin-top: 0px;
+			}
+		}
+		@media screen and (max-width:768px) and (min-width: 450px)
+		{
+				.choice
+				{
+					width: 26%;
+					height: 110px;
+				 }
+				 .arithmetic
+				{
+					height: auto;
+					width: 52%;
+					background-color: auto;
+					margin-bottom: 10vh;
+					padding: 0;
+					margin-top: 5vh;
+				}
+		}
+		

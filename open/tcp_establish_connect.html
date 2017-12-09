@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <title>三次握手——建立TCP连接</title>
+    <link rel="shortcut icon" href="assets/images/gt_favicon.png">
+<!--     <link rel="stylesheet" media="screen" href="assets/css/Opensans.css"> -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <!-- Custom styles for our template -->
+    <link rel="stylesheet" href="assets/css/bootstrap-theme.css" media="screen">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/net.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top headroom">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- Button for smallest screens -->
+                <!-- Button for smallest screens -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" alt="Association of Network and Technology"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="http://blog.xiyounet.org">专栏</a></li>
+                    <li><a href="http://lib.xiyounet.org">网协图书馆</a></li>
+                    <li><a href="about.html">关于</a></li>
+                    <li><a href="contact.html">联系我们</a></li>
+                    <!-- <li><a class="btn" href="signin.html">SIGN IN / SIGN UP</a></li> -->
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+    <!-- /.navbar -->
+    <header id="head" class="secondary"></header>
+    <!-- container -->
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="index.html">主页</a></li>
+            <li class="active">三次握手——建立TCP连接</li>
+        </ol>
+        <!-- three-way handshake -->
+        <div class="row">
+            <!-- Article main content -->
+            <article class="col-sm-12">
+                <header class="page-header">
+                    <h1 class="page-title">三次握手——建立TCP连接</h1>
+                </header>
+                <div class="row border-bottom">
+                    <div class="handshake-img">
+                        <div class="handshake-img-client">
+                            <div class="handshake-img-container">
+                                <img src="assets/images/client.png">
+                                <p>Client A</p>
+                            </div>
+                            <div class="handshake-img-explain">
+                                <span id="client-explain">我是客户端Alice~</span>
+                            </div>
+                        </div>
+                        <svg>
+                            <img id="message_image" src="assets/images/message.png" viewBox="0 0 460 200" class="hide" style="transform: scale(0.15,0.15);display: inline;position: absolute;">
+                        </svg>
+                        <div class="handshake-img-server">
+                            <div class="handshake-img-container">
+                                <img src="assets/images/server.png">
+                                <p>Server B</p>
+                            </div>
+                            <div class="handshake-img-explain">
+                                <span id="server-explain">我是服务器Bob~</span>                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashed"></div>
+                <ul id="message-tabs" class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#sourcePort">报文1</a></li>
+                    <li role="presentation"><a href="#sourcePort">报文2</a></li>
+                    <li role="presentation"><a href="#sourcePort">报文3</a></li>
+                </ul>
+                <div id="message1" class="row message-content">
+                    <div class="col-sm-12 col-md-12 col-xs-12">
+                        <div class="message-row first-line">
+                            <div class="message-row-half text-center message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#sourcePort">源端口</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-half text-center">
+                                <a href="#" data-toggle="modal" data-target="#destinationPort">目的端口</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#orderNumber">序号</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#ackNumber">确认号</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-one-eighth message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#header-length">首部长度</a>
+                                <input type="text" class="small-input hide">
+                            </div>
+                            <div class="message-row-six-thirtytwo">
+                                <a href="#" data-toggle="modal" data-target="#remain">保留</a>
+                                <input type="text" class="mid-input hide">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#urg">URG</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right hide">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#ack">ACK</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#psh">PSH</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#rst">RST</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#syn">SYN</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#fin">FIN</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-half">
+                                <a href="#" data-toggle="modal" data-target="#reciveWindow">接收窗口</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-half message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#checkSum">检验和</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-half ">
+                                <a href="#" data-toggle="modal" data-target="#urgentPointer">紧急指针</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-third-fourth message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#option">选项（长度可变，很少使用）</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-one-fourth">
+                                <a href="#" data-toggle="modal" data-target="#fill">填充</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row message-row-bottom-border">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#tcpData">TCP数据部分</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="message2" class="row message-content hide">
+                    <div class="col-sm-12 col-md-12 col-xs-12">
+                        <div class="message-row first-line">
+                            <div class="message-row-half text-center message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#sourcePort">源端口</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-half text-center">
+                                <a href="#" data-toggle="modal" data-target="#destinationPort">目的端口</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#orderNumber">序号</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#ackNumber">确认号</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-one-eighth message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#header-length">首部长度</a>
+                                <input type="text" class="small-input hide">
+                            </div>
+                            <div class="message-row-six-thirtytwo">
+                                <a href="#" data-toggle="modal" data-target="#remain">保留</a>
+                                <input type="text" class="mid-input hide">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#urg">URG</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right hide">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#ack">ACK</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#psh">PSH</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#rst">RST</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#syn">SYN</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#fin">FIN</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-half">
+                                <a href="#" data-toggle="modal" data-target="#reciveWindow">接收窗口</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-half message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#checkSum">检验和</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-half ">
+                                <a href="#" data-toggle="modal" data-target="#urgentPointer">紧急指针</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-third-fourth message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#option">选项（长度可变，很少使用）</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-one-fourth">
+                                <a href="#" data-toggle="modal" data-target="#fill">填充</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row message-row-bottom-border">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#tcpData">TCP数据部分</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="message3" class="row message-content hide">
+                    <div class="col-sm-12 col-md-12 col-xs-12">
+                        <div class="message-row first-line">
+                            <div class="message-row-half text-center message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#sourcePort">源端口</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-half text-center">
+                                <a href="#" data-toggle="modal" data-target="#destinationPort">目的端口</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#orderNumber">序号</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#ackNumber">确认号</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-one-eighth message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#header-length">首部长度</a>
+                                <input type="text" class="small-input hide">
+                            </div>
+                            <div class="message-row-six-thirtytwo">
+                                <a href="#" data-toggle="modal" data-target="#remain">保留</a>
+                                <input type="text" class="mid-input hide">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#urg">URG</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right hide">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#ack">ACK</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#psh">PSH</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#rst">RST</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#syn">SYN</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-one-thirtytwo tcp-flags">
+                                <a href="#" data-toggle="modal" data-target="#fin">FIN</a>
+                                <input type="text" maxlength="1" class="xs-input hide input-move-right">
+                            </div>
+                            <div class="message-row-half">
+                                <a href="#" data-toggle="modal" data-target="#reciveWindow">接收窗口</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-half message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#checkSum">检验和</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-half ">
+                                <a href="#" data-toggle="modal" data-target="#urgentPointer">紧急指针</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <div class="message-row-third-fourth message-row-right-border">
+                                <a href="#" data-toggle="modal" data-target="#option">选项（长度可变，很少使用）</a>
+                                <input type="text" class="hide">
+                            </div>
+                            <div class="message-row-one-fourth">
+                                <a href="#" data-toggle="modal" data-target="#fill">填充</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                        <div class="message-row message-row-bottom-border">
+                            <div class="message-row-full">
+                                <a href="#" data-toggle="modal" data-target="#tcpData">TCP数据部分</a>
+                                <input type="text" class="hide">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <!-- /Article -->
+        </div>
+    </div>
+    <!-- /container -->
+    <!-- controller -->
+    <div class="container">
+        <ol id="option-btn" class="breadcrumb">
+            <button id="begin-show" type="button" class="btn btn-default">开始演示</button>
+            <button id="end-show" type="button" class="btn btn-default">结束演示</button>
+            <button id="random-header" type="button" class="btn btn-default">随机生成报文头</button>
+           <!--  <button id="binary-message" type="button" class="btn btn-default">将当前报文输出为二进制</button> -->
+        </ol>
+    </div>
+    <!-- controller -->
+    <!-- modal -->
+    <div class="modal fade" id="sourcePort" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        源端口
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：2字节。</p>
+                    <p>功能：指发送tcp报文的端口。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="destinationPort" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        目的端口
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：2字节。</p>
+                    <p>功能：指远程服务器或主机接收报文的端口。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="orderNumber" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        序号
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：4字节。</p>
+                    <p>范围：[0,2<sup>32</sup>-1]，共4294967296个序号</p>
+                    <p>功能：因TCP是面向字节流的，通过序号对TCP连接中传送的每一个字节进行编号，首部中的序号字段指的是本报文段所发送的数据的第一个字节的序号。这个字段的名称也称作“报文段序号”</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="ackNumber" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        确认号
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：4字节</p>
+                    <p>功能：是期望收到对方下一个报文段的第一个数据字节的序号。</p>
+                    <p>Tips：若确认号=N，则表明：到序号N-1为止的所有数据都已正确收到。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="header-length" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        首部长度
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：4比特。</p>
+                    <p>功能：其指出TCP报文段的数据起始处距离TCP报文段的起始处有多远。实际上指出的是TCP报文段的首部长度。数据偏移的单位是32位。</p>
+                    <p>Tips：由于4位二进制数能够表示的最大十进制数字是15，因此数据偏移的最大值是32位*15=60字节。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="remain" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        保留
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：占6位。</p>
+                    <p>功能：保留为今后使用，但目前应该置为0。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="urg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        URG
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：1位。</p>
+                    <p>功能：当URG=1时，表明紧急指针字段有效。告诉系统此报文段中有紧急数据，应尽快传送，并将其插入到本报文段数据的最前面，而不是按原来的排队顺序来传送。在紧急指针后的数据仍是普通数据。这时需要与首部中的紧急指针字段配合使用。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="ack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        ACK
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：1位。</p>
+                    <p>功能：仅当ACK=1时确认号字段有效。TCP规定，在连接建立后所有传送的报文段都必须把ACK置1。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="psh" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        PSH
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：1位。</p>
+                    <p>功能：当两个应用进程进行交互式的通信时，有时在一端的应用进程希望在键入一个命令后立即就能够收到对方的相应。在这种情况下，TCP就可以使用推送(PuSH)操作。这时，发送方TCP把PSH置1，并立即创建一个报文段发送出去，接受方TCP收到PSH=1的报文段，就尽快交付接收应用进程，而不再等到整个缓存填满后再向上交付。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="rst" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        RST
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：1位。</p>
+                    <p>功能：当RST=1时，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立运输连接。RST置1还用来拒绝一个非法的报文段或拒绝打开一个连接。</p>
+                    <p>Tips：RST也可称为重建位或重置位。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="syn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        SYN
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：1位</p>
+                    <p>功能：在连接建立时用来同步序号。SYN置为1就表示这是一个连接请求或连接接受报文。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="fin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        FIN
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：1位</p>
+                    <p>功能：用来释放一个连接。当FIN=1时，标明此报文段的发送方的数据已经发送完毕，并要求释放运输连接。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="reciveWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        接收窗口
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：2字节</p>
+                    <p>范围：[0,2<sup>16</sup>-1]之间的整数</p>
+                    <p>功能：指的是发送本报文段的乙方的接收窗口。窗口值告诉对方：从本报文段首部中的确认号算起，接收方目前允许对方发送的数据量。窗口值作为接收方让发送方设置其发送窗口的依据。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="checkSum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        检验和
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：2字节</p>
+                    <p>检验范围：检验和字段检验的范围包括首部和数据两部分。</p>
+                    <p>功能：为了发现TCP首部和数据在发送端到接收端之间发生的任何改动。如果接收方检测到校验和有差错，则TCP段会被直接丢弃。</p>
+                    <p>Tips：TCP和UDP计算校验和时，都要加上一个12字节的伪首部。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="urgentPointer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        紧急指针
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：2字节</p>
+                    <p>功能：紧急指针只有在URG=1时才有意义，它指出本报文段中的紧急数据的字节数（紧急数据后就是普通数据）。因此，紧急指针指出了紧急数据的末尾在报文段中的位置。当所有紧急数据处理完时，TCP就告诉应用程序恢复到正常操作。</p>
+                    <p>Tips：即使窗口为0时也可发送紧急数据</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="option" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        选项
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>长度：可变，最长可达40字节。</p>
+                    <p>功能：附加TCP选项，常见的TCP选项有七种：</p>
+                    <ul>
+                        <li><b>选项表结束选项（End of Option List）</b></li>
+                        <li><b>空操作选项（No-Operation）</b>：没有特殊含义，一般用于将TCP选项的总长度填充为4字节的整数倍。</li>
+                        <li><b>最大报文段长度选项（Maximum Segment Size）</b>：TCP连接初始化时，通信双方使用该选项来协商最大报文段长度（Max Segment Size，MSS）。TCP模块通常将MSS设置为（MTU-40）字节（减掉的这40字节包括20字节的TCP头部和20字节的IP头部）。这样携带TCP报文段的IP数据报的长度就不会超过MTU（假设TCP头部和IP头部都不包含选项字段，并且这也是一般情况），从而避免本机发生IP分片。对以太网而言，MSS值是1460（1500-40）字节。</li>
+                        <li><b>窗口扩大因子选项（WSOPT - Window Scale）</b>：TCP连接初始化时，通信双方使用该选项来协商接收通告窗口的扩大因子。在TCP的头部中，接收通告窗口大小是用16位表示的，故最大为65535字节，但实际上TCP模块允许的接收通告窗口大小远不止这个数（为了提高TCP通信的吞吐量）。窗口扩大因子解决了这个问题。</li>
+                        <li><b>选择性确认选项（SACK Permitted）</b>：TCP通信时，如果某个TCP报文段丢失，则TCP模块会重传最后被确认的TCP报文段后续的所有报文段，这样原先已经正确传输的TCP报文段也可能重复发送，从而降低了TCP性能。SACK技术正是为改善这种情况而产生的，它使TCP模块只重新发送丢失的TCP报文段，不用发送所有未被确认的TCP报文段。</li>
+                        <li><b>SACK实际工作选项（SACK）</b>：该选项的参数告诉发送方本端已经收到并缓存的不连续的数据块，从而让发送端可以据此检查并重发丢失的数据块。</li>
+                        <li><b>时间戳选项（TSOPT - Time Stamp Option）</b>：该选项提供了较为准确的计算通信双方之间的回路时间（Round Trip Time，RTT）的方法，从而为TCP流量控制提供重要信息。</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="fill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        填充
+                </div>
+                <div class="modal-body">
+                    <p>长度：4字节</p>
+                        <p>功能：由于选项字段位非固定，为了使整个首部长度为4字节的倍数，通过填充字段来加以补齐。</p>
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="tcpData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        数据部分
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    功能：该部分为所需传送的数据。 Tips：不属于TCP头。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="checkData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <p>需生成报文头</p>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>请选择“<b>随机生成报文头</b>来生成报文信息</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <footer id="footer" class="top-space">
+        <div class="footer1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 widget">
+                        <h3 class="widget-title">联系我们</h3>
+                        <div class="widget-body">
+                            <address>陕西省西安市长安区西安邮电大学 东区 FZ130 </address>
+                            <p><b>邮箱:</b><a href="mailto:admin@xiyouant.org">admin@xiyouant.org</a>
+                                <br>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-2 widget">
+                        <h3 class="widget-title">Follow Us</h3>
+                        <div class="widget-body">
+                            <p class="follow-me-icons">
+                                <a class="social-btn bspopover" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<img src=assets/images/wechat.jpg style='width: 140px; height: 140px;'>" data-original-title="" title="">
+                                <i class="fa fa-weixin fa-2"></i>
+                                </a>
+                                <a href="https://github.com/xiyouant" target="_blank"><i class="fa fa-github fa-2"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-2 widget">
+                        <h3 class="widget-title">友情赞助</h3>
+                        <div class="widget-body">
+                            <p><a href="contribution.html" target="_blank">我要赞助</a></p>
+                            <p><a href="donorList.html" target="_blank">查看捐赠者列表</a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-5 widget">
+                        <h3 class="widget-title">内容许可</h3>
+                        <div class="widget-body">
+                            <p>本站由 <a href="https://www.digitalocean.com/?refcode=3c8422b30f9d">DigitalOcean</a> 提供服务器支持<a href="http://www.qiniu.com/"> 七牛 </a>提供 CDN 存储服务</p>
+                            <p>除特别说明外，用户内容均采用
+                                <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-sa/3.0/cn/">知识共享署名-相同方式共享 3.0 中国大陆许可协议</a>进行许可</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row of widgets -->
+            </div>
+        </div>
+        <div class="footer2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 widget">
+                        <div class="widget-body">
+                            <!--                            <p class="simplenav">
+                                <a href="#">主页</a> | 
+                                <a href="http://blog.xiyounet.org">专栏</a> |
+                                <a href="http://lib.xiyounet.org">网协图书馆</a> |
+                                <a href="contact.html">联系我们</a> 
+                            </p> -->
+                            <p class="text-center">Copyright &copy; 2010-2016 西安邮电大学计算机院网络科技协会.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 widget">
+                        <div class="widget-body">
+                            <p class="text-center">陕ICP备15013578号 当前呈现版本 15.11.4</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row of widgets -->
+            </div>
+        </div>
+    </footer>
+    <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+    <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/headroom.min.js"></script>
+    <script src="assets/js/jQuery.headroom.min.js"></script>
+    <script src="assets/js/template.js"></script>
+    <script src="https://cdn.bootcss.com/d3/4.10.0/d3.js"></script>
+    <!--  popover initialization -->
+    <script>
+    $(function() { $('[data-toggle="popover"]').popover() })
+    </script>
+    <!-- baidu-map -->
+    <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vFxGwPd6uorMi2t8n2KATb48"></script> -->
+    <script src="assets/js/tcp_simulation.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+ul{
+		list-style: none;
+		padding: 0;
+	    margin: 0;
+}
+ul#add_algorithm li,ul#explain li,ul#de_algorithm li{
+       
+	    padding-left: 10px;
+	    word-wrap: break-word;
+	    padding-bottom: 5px;
+	    padding-top: 5px;
+}
+g{
+	transition: all 200ms ease-out;
+}
+rect,li{
+	transition: all 200ms ease-out;
+}
+ul#add_algorithm,ul#explain,ul#de_algorithm{
+	padding-top: 10px;
+}
+@media(min-width: 768px){
+   #svg{
+   	margin-top: 0px;
+   	padding-top: 35px;
+   }
+}
+}
+	
+
